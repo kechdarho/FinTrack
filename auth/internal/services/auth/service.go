@@ -1,18 +1,19 @@
 package auth
 
 import (
-	"auth/internal/models"
 	"context"
+	"github.com/kechdarho/FinTrack/auth/internal/models"
 )
 
-type AuthService struct {
-	appCache appCache
-	authPg   authPg
+type authService struct {
+	memoryCache memoryCache
+	authPg      authPg
 }
 
-func NewAuthService(authPg authPg) *AuthService {
-	return &AuthService{
-		authPg: authPg,
+func NewAuthService(memoryCache memoryCache, authPg authPg) AuthenticationService {
+	return &authService{
+		memoryCache: memoryCache,
+		authPg:      authPg,
 	}
 }
 
@@ -20,9 +21,7 @@ type authPg interface {
 	CreateUser(username, password, phone, email string) (success bool, err error)
 }
 
-type AppCache interface {
-	Get(stri)
-	set()
+type memoryCache interface {
 }
 
 type AuthenticationService interface {
