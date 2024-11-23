@@ -1,0 +1,31 @@
+server:
+  host: "0.0.0.0"
+  port: 8080
+
+database:
+  driver: "postgres"
+  host: "localhost"
+  port: 5432
+  username: "highbyte"
+  password: "highbyte"
+  name: "fintrack"
+  sslmode: "disable"
+  max_connections: 10
+  max_idle_connections: 5
+  connection_max_lifetime: 30m
+
+cache:
+  type: "redis"
+  redis:
+    host: "localhost"
+    port: 6379
+    password: ""
+    db: 0
+    ttl: 10m
+  memory:
+    default_expiration: 5m
+    cleanup_interval: 10m
+
+jwt:
+  secret: "supersecret"
+  expiration: 1h
