@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"auth/internal/models"
 	"github.com/gin-gonic/gin"
+	"github.com/kechdarho/FinTrack/auth/internal/models"
 	"net/http"
 )
 

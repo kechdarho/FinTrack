@@ -5,20 +5,19 @@ import (
 	"github.com/kechdarho/FinTrack/auth/internal/models"
 )
 
-type authService struct {
+type AuthService struct {
 	memoryCache memoryCache
-	authPg      authPg
+	authPg      authPgStorage
 }
 
-func NewAuthService(memoryCache memoryCache, authPg authPg) AuthenticationService {
-	return &authService{
+func NewAuthService(memoryCache memoryCache, authPg authPgStorage) *AuthService {
+	return &AuthService{
 		memoryCache: memoryCache,
 		authPg:      authPg,
 	}
 }
 
-type authPg interface {
-	CreateUser(username, password, phone, email string) (success bool, err error)
+type authPgStorage interface {
 }
 
 type memoryCache interface {

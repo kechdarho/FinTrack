@@ -5,6 +5,6 @@ import (
 	"github.com/kechdarho/FinTrack/auth/internal/models"
 )
 
-func (svc *authService) Register(ctx context.Context, registerRequest models.RegisterRequest) (result models.RegisterResponse, err error) {
+func (svc *AuthService) Register(ctx context.Context, registerRequest models.RegisterRequest) (result models.RegisterResponse, err error) {
 	return
 }

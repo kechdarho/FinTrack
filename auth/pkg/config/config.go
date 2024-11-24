@@ -4,22 +4,23 @@ import (
 	"errors"
 	"gopkg.in/yaml.v3"
 	"os"
+	"path/filepath"
 	"time"
 )
 
 var Config struct {
 	Server struct {
 		Host string `yaml:"host"`
-		Port int    `yaml:"port"`
+		Port string `yaml:"port"`
 	} `yaml:"server"`
 
 	Database struct {
 		Driver                string        `yaml:"driver"`
 		Host                  string        `yaml:"host"`
-		Port                  int           `yaml:"port"`
+		Port                  string        `yaml:"port"`
 		Username              string        `yaml:"username"`
 		Password              string        `yaml:"password"`
-		Name                  string        `yaml:"name"`
+		DbName                string        `yaml:"name"`
 		Sslmode               string        `yaml:"sslmode"`
 		MaxConnections        int           `yaml:"max_connections"`
 		MaxIdleConnections    int           `yaml:"max_idle_connections"`
@@ -48,7 +49,14 @@ var Config struct {
 }
 
 func LoadConfig() error {
-	file, err := os.Open("config.yaml")
+	basePath, err := os.Getwd()
+	if err != nil {
+		return errors.New("failed to get current directory: " + err.Error())
+	}
+
+	configPath := filepath.Join(basePath, "pkg", "config", "config.yaml")
+
+	file, err := os.Open(configPath)
 	if err != nil {
 		return errors.New("failed to open config file: " + err.Error())
 	}

@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"auth/internal/models"
 	"context"
+	"github.com/kechdarho/FinTrack/auth/internal/models"
 )
 
 type authService interface {
