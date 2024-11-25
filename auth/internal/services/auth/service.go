@@ -18,13 +18,14 @@ func NewAuthService(memoryCache memoryCache, authPg authPgStorage) *AuthService 
 }
 
 type authPgStorage interface {
+	CreateUser(ctx context.Context, email, username, password string) (userID int, err error)
+	GetUser(ctx context.Context, login string) (user models.User, err error)
 }
 
 type memoryCache interface {
 }
 
 type AuthenticationService interface {
-	Login(username, password string) (jwt string, err error)
-	Logout(token string) (err error)
-	Register(ctx context.Context, registerRequest models.RegisterRequest) (result models.RegisterResponse, err error)
+	SignUp(ctx context.Context, registerRequest models.SignUpRequest) (response models.SignUpResponse, err error)
+	SignIn(ctx context.Context, username, password string) (response models.SignInResponse, err error)
 }

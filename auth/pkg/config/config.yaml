@@ -6,9 +6,9 @@ database:
   driver: "postgres"
   host: "localhost"
   port: "5432"
-  username: "highbyte"
-  password: "highbyte"
-  name: "fintrack"
+  username: "fintrack"
+  password: "fintrack"
+  name: "fintrackdatabase"
   sslmode: "disable"
   max_connections: 10
   max_idle_connections: 5

@@ -1,4 +1,4 @@
-package storage
+package authPg
 
 import (
 	"context"
@@ -6,7 +6,7 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-type AuthStorage struct {
+type Storage struct {
 	db *pgxpool.Pool
 }
 
@@ -17,7 +17,7 @@ func NewAuthStorage(
 	user string,
 	password string,
 	sslMode string,
-) (authStorage *AuthStorage, err error) {
+) (authStorage *Storage, err error) {
 
 	dsn := fmt.Sprintf(
 		"postgres://%s:%s@%s:%s/%s?sslmode=%s",
@@ -34,5 +34,9 @@ func NewAuthStorage(
 		return
 	}
 
-	return &AuthStorage{db: pool}, nil
+	return &Storage{db: pool}, nil
+}
+
+func (s *Storage) Close() {
+	s.Close()
 }

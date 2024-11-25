@@ -1,7 +1,9 @@
 package handlers
 
 import (
+	"context"
 	"github.com/gin-gonic/gin"
+	"github.com/kechdarho/FinTrack/auth/internal/models"
 )
 
 type Handlers struct {
@@ -22,6 +24,7 @@ func NewHandlers(authService authService) *Handlers {
 	return h
 }
 
-func (h *Handlers) registerRoutes() {
-	h.Router.POST("/register", h.Register)
+type authService interface {
+	SignUp(ctx context.Context, registerRequest models.SignUpRequest) (response models.SignUpResponse, err error)
+	SignIn(ctx context.Context, username, password string) (response models.SignInResponse, err error)
 }
