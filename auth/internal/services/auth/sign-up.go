@@ -6,7 +6,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func (svc *AuthService) SignUp(ctx context.Context, registerRequest models.SignUpRequest) (response models.SignUpResponse, err error) {
+func (svc *AuthenticationService) SignUp(ctx context.Context, registerRequest models.SignUpRequest) (response models.SignUpResponse, err error) {
 	hashedPassword, err := hashPassword(registerRequest.Password)
 	if err != nil {
 		return

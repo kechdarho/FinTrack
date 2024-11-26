@@ -2,10 +2,12 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"github.com/kechdarho/FinTrack/auth/internal/handlers"
 	"github.com/kechdarho/FinTrack/auth/internal/services/auth"
 	"github.com/kechdarho/FinTrack/auth/internal/storage/authPg"
 	"github.com/kechdarho/FinTrack/auth/pkg/config"
+	"github.com/kechdarho/FinTrack/auth/pkg/jwt"
 	"github.com/patrickmn/go-cache"
 	"log"
 	"net/http"
@@ -17,6 +19,7 @@ import (
 
 func main() {
 	if err := config.LoadConfig(); err != nil {
+		fmt.Println(config.Config)
 		panic(err)
 	}
 
@@ -39,8 +42,8 @@ func main() {
 	}
 
 	defer authStorage.Close()
-
-	authService := auth.NewAuthService(memoryCache, authStorage)
+	jwtWrapper := jwt.NewJWTWrapper(config.Config.JWT.Secret, config.Config.JWT.AccessTokenTTL, config.Config.JWT.RefreshTokenTTL)
+	authService := auth.NewAuthService(memoryCache, authStorage, jwtWrapper)
 
 	router := handlers.NewHandlers(authService).Router
 

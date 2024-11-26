@@ -1,5 +1,5 @@
 package auth
 
-func (svc *AuthService) Logout(token string) (err error) {
+func (svc *AuthenticationService) Logout(token string) (err error) {
 	return
 }

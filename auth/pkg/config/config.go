@@ -43,8 +43,9 @@ var Config struct {
 	} `yaml:"cache"`
 
 	JWT struct {
-		Secret     string        `yaml:"secret"`
-		Expiration time.Duration `yaml:"expiration"`
+		Secret          string        `yaml:"secret"`
+		AccessTokenTTL  time.Duration `yaml:"access_token_ttl"`
+		RefreshTokenTTL time.Duration `yaml:"refresh_token_ttl"`
 	} `yaml:"jwt"`
 }
 
@@ -54,7 +55,7 @@ func LoadConfig() error {
 		return errors.New("failed to get current directory: " + err.Error())
 	}
 
-	configPath := filepath.Join(basePath, "pkg", "config", "config.yaml")
+	configPath := filepath.Join(basePath, "auth", "pkg", "config", "config.yaml")
 
 	file, err := os.Open(configPath)
 	if err != nil {

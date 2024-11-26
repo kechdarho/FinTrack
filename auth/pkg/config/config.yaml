@@ -27,5 +27,6 @@ cache:
     cleanup_interval: 10m
 
 jwt:
-  secret: "supersecret"
-  expiration: 1h
+  secret: "802d501165412258a874c53c3d701bde135d96462dca9ad28570b6e88bef1f12"
+  access_token_ttl: 1h
+  refresh_token_ttl: 168h
