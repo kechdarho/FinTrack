@@ -14,11 +14,13 @@ func (h *Handlers) SignIn(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	response, err := h.authService.SignIn(c.Request.Context(), request.Login, request.Password)
+	response, refreshToken, err := h.authService.SignIn(c.Request.Context(), request.Login, request.Password)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	c.SetCookie("refresh_token", refreshToken, 1*24*60*60, "/api/v1/refresh", "example.com", true, true)
 
 	c.JSON(http.StatusOK, response)
 }

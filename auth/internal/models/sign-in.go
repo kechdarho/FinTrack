@@ -5,8 +5,6 @@ type SignInRequest struct {
 	Password string `json:"password" binding:"required"`
 }
 
-type UserSession struct {
-	UserID       int    `json:"userID"`
-	AccessToken  string `json:"access_token"`
-	RefreshToken string `json:"refresh_token"`
+type SignInResponse struct {
+	AccessToken string `json:"access_token"`
 }

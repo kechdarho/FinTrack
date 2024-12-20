@@ -26,5 +26,6 @@ func NewHandlers(authService authService) *Handlers {
 
 type authService interface {
 	SignUp(ctx context.Context, registerRequest models.SignUpRequest) (response models.SignUpResponse, err error)
-	SignIn(ctx context.Context, username, password string) (response models.UserSession, err error)
+	SignIn(ctx context.Context, username, password string) (response models.SignInResponse, refreshToken string, err error)
+	Logout(ctx context.Context, token uint) (err error)
 }

@@ -24,7 +24,7 @@ func (h *Handlers) SignUp(c *gin.Context) {
 }
 
 func validateRegisterRequest(c *gin.Context) (request models.SignUpRequest, err error) {
-	if err = c.Bind(&request); err != nil {
+	if err = c.ShouldBindJSON(&request); err != nil {
 		return
 	}
 

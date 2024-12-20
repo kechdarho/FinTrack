@@ -8,7 +8,7 @@ import (
 	"github.com/kechdarho/FinTrack/auth/internal/models"
 )
 
-func (s *Storage) CreateUser(ctx context.Context, email, username, password string) (userID int, err error) {
+func (s *Storage) CreateUser(ctx context.Context, email, username, password string) (userID uint, err error) {
 	query := `INSERT INTO public.users (email, username, password_hash)
 			VALUES ($1,$2,$3)
 			RETURNING user_id`

@@ -21,7 +21,7 @@ func NewAuthService(memoryCache memoryCache, authPg authPgStorage, jwtWrapper Wr
 }
 
 type authPgStorage interface {
-	CreateUser(ctx context.Context, email, username, password string) (userID int, err error)
+	CreateUser(ctx context.Context, email, username, password string) (userID uint, err error)
 	GetUser(ctx context.Context, login string) (user models.User, err error)
 }
 
@@ -32,13 +32,13 @@ type memoryCache interface {
 }
 
 type WrapperJWT interface {
-	GenerateAccessToken(userID int) (accessToken models.AccessToken, err error)
-	GenerateRefreshToken(userID int) (refreshToken models.RefreshToken, err error)
-	ValidateAccessToken(tokenString string) (int, error)
-	ValidateRefreshToken(tokenString string) (int, error)
+	GenerateAccessToken(userID uint) (accessToken string, err error)
+	GenerateRefreshToken(userID uint) (refreshToken string, err error)
+	ValidateAccessToken(tokenString string) (uint, error)
+	ValidateRefreshToken(tokenString string) (uint, error)
 }
 
 type AuthenticationSrv interface {
 	SignUp(ctx context.Context, registerRequest models.SignUpRequest) (response models.SignUpResponse, err error)
-	SignIn(ctx context.Context, username, password string) (response models.UserSession, err error)
+	SignIn(ctx context.Context, username, password string) (response models.SignInResponse, err error)
 }

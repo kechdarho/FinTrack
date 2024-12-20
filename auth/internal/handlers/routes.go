@@ -5,5 +5,5 @@ func (h *Handlers) registerRoutes() {
 		Group("/v1").
 		POST("/register", h.SignUp).
 		POST("/login", h.SignIn).
-		POST("/logout")
+		DELETE("/logout", h.Logout)
 }

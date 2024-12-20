@@ -1,10 +1,13 @@
 package jwt
 
 import (
-	"github.com/kechdarho/FinTrack/auth/internal/models"
-	"time"
-
 	"github.com/golang-jwt/jwt/v5"
+	"time"
+)
+
+const (
+	BlackListRefreshTokenCacheKey = "black-list-refresh-token"
+	BlackListAccessTokenCacheKey  = "black-list-access-token"
 )
 
 type JwtService interface {
@@ -29,11 +32,11 @@ func NewJWTWrapper(secretKey string, accessTokenExpires, refreshTokenExpires tim
 }
 
 type Claims struct {
-	UserID int `json:"user_id"`
+	UserID uint `json:"user_id"`
 	jwt.RegisteredClaims
 }
 
-func (j *WrapperJWT) GenerateAccessToken(userID int) (accessToken models.AccessToken, err error) {
+func (j *WrapperJWT) GenerateAccessToken(userID uint) (accessToken string, err error) {
 	claims := &Claims{
 		UserID: userID,
 		RegisteredClaims: jwt.RegisteredClaims{
@@ -43,17 +46,10 @@ func (j *WrapperJWT) GenerateAccessToken(userID int) (accessToken models.AccessT
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	signedToken, err := token.SignedString([]byte(j.SecretKey))
-	if err != nil {
-		return
-	}
-
-	accessToken = models.AccessToken{Token: signedToken, TTL: j.AccessTokenExpires}
-
-	return
+	return token.SignedString([]byte(j.SecretKey))
 }
 
-func (j *WrapperJWT) GenerateRefreshToken(userID int) (refreshToken models.RefreshToken, err error) {
+func (j *WrapperJWT) GenerateRefreshToken(userID uint) (refreshToken string, err error) {
 	claims := &Claims{
 		UserID: userID,
 		RegisteredClaims: jwt.RegisteredClaims{
@@ -63,24 +59,18 @@ func (j *WrapperJWT) GenerateRefreshToken(userID int) (refreshToken models.Refre
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	signedToken, err := token.SignedString([]byte(j.SecretKey))
-	if err != nil {
-		return
-	}
-
-	refreshToken = models.RefreshToken{Token: signedToken, TTL: j.RefreshTokenExpires}
-	return
+	return token.SignedString([]byte(j.SecretKey))
 }
 
-func (j *WrapperJWT) ValidateAccessToken(tokenString string) (int, error) {
+func (j *WrapperJWT) ValidateAccessToken(tokenString string) (uint, error) {
 	return j.validateToken(tokenString)
 }
 
-func (j *WrapperJWT) ValidateRefreshToken(tokenString string) (int, error) {
+func (j *WrapperJWT) ValidateRefreshToken(tokenString string) (uint, error) {
 	return j.validateToken(tokenString)
 }
 
-func (j *WrapperJWT) validateToken(tokenString string) (int, error) {
+func (j *WrapperJWT) validateToken(tokenString string) (uint, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &Claims{}, func(token *jwt.Token) (interface{}, error) {
 		return []byte(j.SecretKey), nil
 	})
